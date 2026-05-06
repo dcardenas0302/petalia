@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Petalia — A flower-themed educational programming language where data types are flowers and code blooms."/>
+<title>Petalia 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:      #1a110d;
+  --rose:     #b8394f;
+  --rose-bg:  #fdf1f3;
+  --sage:     #5a8a5a;
+  --sage-bg:  #f0f6ef;
+  --cream:    #faf7f2;
+  --rule:     #e0d5c8;
+  --code-bg:  #1e1812;
+  --code-txt: #e8ddd5;
+  --muted:    #7a6a5a;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Lora',Georgia,serif;
+  font-size:17px;
+  line-height:1.85;
+  max-width:760px;
+  margin:0 auto;
+  padding:0 1.5rem 6rem;
+}
+
+hr{border:none;border-top:1px solid var(--rule);margin:3rem 0}
+
+h1{font-size:3.2rem;font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin-bottom:.4rem}
+h1 .bloom{color:var(--rose);font-style:italic}
+
+h2{font-size:1.45rem;font-weight:600;margin:2.8rem 0 .7rem;padding-bottom:.3rem;border-bottom:1px solid var(--rule)}
+h2 .e{margin-right:.3em}
+
+h3{
+  font-size:.88rem;
+  font-weight:500;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--muted);
+  margin:2rem 0 .3rem;
+  letter-spacing:.03em;
+}
+
+h4{
+  font-size:.75rem;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--sage);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  margin:1.4rem 0 .3rem;
+}
+
+p{margin-bottom:.9rem}
+ul,ol{margin:.4rem 0 .9rem 1.5rem}
+li{margin-bottom:.2rem}
+a{color:var(--rose);text-decoration:none}
+a:hover{text-decoration:underline}
+
+code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.83em;
+  background:var(--rose-bg);
+  color:var(--rose);
+  padding:.08em .32em;
+  border-radius:4px;
+}
+
+pre{
+  background:var(--code-bg);
+  color:var(--code-txt);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem;
+  line-height:1.75;
+  padding:1.3rem 1.5rem;
+  border-radius:10px;
+  overflow-x:auto;
+  margin:.8rem 0 1.3rem;
+  border-left:3px solid var(--rose);
+}
+pre .c {color:#5a7a50;font-style:italic}
+pre .k {color:#e8828f}
+pre .k2{color:#f0b060}
+pre .s {color:#90c870}
+pre .n {color:#c090e8}
+pre .fn{color:#80b8e0}
+
+.shell{
+  background:#0d0d0d;
+  color:#b0e890;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem;
+  padding:.9rem 1.3rem;
+  border-radius:10px;
+  margin:.8rem 0;
+  overflow-x:auto;
+}
+.shell::before{content:'$ ';color:#4a7a4a;user-select:none}
+
+table{width:100%;border-collapse:collapse;margin:.8rem 0 1.3rem;font-size:.9rem}
+th{
+  text-align:left;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+  padding:.5rem .75rem;
+  border-bottom:2px solid var(--rule);
+}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(184,57,79,.04)}
+td:first-child{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--rose);white-space:nowrap}
+
+/* ── header ── */
+.site-header{padding:4rem 0 2.2rem;border-bottom:2px solid var(--ink);margin-bottom:2.5rem}
+.tagline{font-size:1.1rem;font-style:italic;color:var(--muted);margin:.4rem 0 1.4rem}
+.flower-row{font-size:1.4rem;letter-spacing:.35em;margin-bottom:.9rem;user-select:none}
+.header-links{display:flex;gap:.9rem;flex-wrap:wrap}
+.header-links a{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;
+  letter-spacing:.04em;
+  padding:.38rem .85rem;
+  border-radius:6px;
+  border:1px solid var(--ink);
+  color:var(--ink);
+  transition:background .12s,color .12s;
+}
+.header-links a:hover{background:var(--ink);color:var(--cream);text-decoration:none}
+.header-links a.primary{background:var(--rose);color:#fff;border-color:var(--rose)}
+.header-links a.primary:hover{background:#952035}
+
+/* ── output box ── */
+.output{
+  background:#f7f3ed;
+  border:1px solid var(--rule);
+  border-radius:10px;
+  padding:1.1rem 1.3rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.8rem;
+  line-height:2;
+  margin:.8rem 0 1.3rem;
+  white-space:pre-wrap;
+}
+.output-label{
+  display:block;
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:var(--muted);
+  margin-bottom:.5rem;
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* ── callout ── */
+.callout{
+  border-left:3px solid var(--rose);
+  background:var(--rose-bg);
+  padding:.85rem 1.1rem;
+  border-radius:0 8px 8px 0;
+  margin:1.1rem 0;
+  font-size:.95rem;
+}
+.callout.green{border-color:var(--sage);background:var(--sage-bg)}
+
+/* ── badges ── */
+.badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  padding:.12rem .5rem;
+  border-radius:99px;
+  border:1px solid;
+}
+.bs{color:var(--sage);border-color:var(--sage);background:var(--sage-bg)}
+.bc{color:var(--rose);border-color:var(--rose);background:var(--rose-bg)}
+
+/* ── footer ── */
+footer{
+  margin-top:4rem;
+  padding-top:2rem;
+  border-top:1px solid var(--rule);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.76rem;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:.4rem;
+}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--rose)}
+
+@media(max-width:520px){
+  body{font-size:15px;padding:0 1rem 4rem}
+  h1{font-size:2.2rem}
+  .header-links a{font-size:.72rem;padding:.32rem .7rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="flower-row">🌹 🌷 🌼 🌺 🌻 🌸 💐</div>
+  <h1>Peta<span class="bloom">lia</span></h1>
+  <p class="tagline">A programming language based on flowers.</p>
+  <div class="header-links">
+    <a class="primary" href="https://github.com/YOUR_USERNAME/petalia">More on GitHub</a>
+    <a href="#try">Try It Yourself</a>
+    <a href="#reference">Language Reference</a>
+    <a href="#programs">Demo Programs</a>
+    <a href="#start">Get Started</a>
+  </div>
+</header>
+
+<p>
+  Petalia is a flower-themed educational programming language where every data type is a flower,
+  output blooms as visual bouquets and gardens, and syntax is designed to be readable and
+  beginner-friendly — because code should grow, not intimidate.
+</p>
+<p>
+  Built for CS420 by <strong>Diego Cardenas</strong> &amp; <strong>Reinaldo Roldan</strong> — Team Petalia.
+</p>
+
+<hr/>
+
+<!-- TRY IT -->
+<h2 id="try"><span class="e">🌱</span>Try it yourself</h2>
+
+<h3>hello_world.petal</h3>
+<pre><span class="c"># Hello World in Petalia</span>
+
+<span class="k">tulip</span> msg = <span class="s">"Hello, World!"</span>
+<span class="k2">bloom</span> msg
+
+<span class="k">bouquet</span> greeting = <span class="k2">new</span> bouquet()
+greeting.<span class="fn">add</span>(<span class="s">"tulip"</span>, <span class="s">"Hello, World!"</span>)
+greeting.<span class="fn">add</span>(<span class="s">"rose"</span>,  <span class="s">"Welcome to Petalia!"</span>)
+greeting.<span class="fn">add</span>(<span class="s">"daisy"</span>, <span class="s">"Where code blooms 🌸"</span>)
+<span class="k2">bloom</span> greeting</pre>
+
+<div class="shell">python interpreter.py hello_world.petal</div>
+
+<div class="output"><span class="output-label">output</span>🌷 Hello, World!
+
+🌸 Bouquet:
+  🌷 [tulip] Hello, World!
+  🌹 [rose]  Welcome to Petalia!
+  🌼 [daisy] Where code blooms 🌸</div>
+
+<h4>🌸 Now start blooming!</h4>
+
+<hr/>
+
+<!-- REFERENCE -->
+<h2 id="reference"><span class="e">🌸</span>Language reference</h2>
+
+<h2>Types</h2>
+<table>
+  <thead><tr><th>Keyword</th><th>Meaning</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>rose</td><td>Integer / Float</td><td><code>rose x = 42</code></td></tr>
+    <tr><td>tulip</td><td>String</td><td><code>tulip name = "Alice"</code></td></tr>
+    <tr><td>daisy</td><td>Boolean</td><td><code>daisy flag = petal</code></td></tr>
+    <tr><td>lily</td><td>List</td><td><code>lily nums = [1, 2, 3]</code></td></tr>
+    <tr><td>bouquet</td><td>Output collection</td><td><code>bouquet b = new bouquet()</code></td></tr>
+    <tr><td>garden</td><td>Full scene / function</td><td><code>garden myFn(x) { ... }</code></td></tr>
+  </tbody>
+</table>
+
+<h2>Boolean &amp; null literals</h2>
+<ul>
+  <li><code>petal</code> → <code>true</code></li>
+  <li><code>wilted</code> → <code>false</code></li>
+  <li><code>bare</code> → <code>null / None</code></li>
+</ul>
+
+<h2>Output</h2>
+<pre><span class="k2">bloom</span> &lt;expression&gt;</pre>
+<p>Strings print as text. Bouquets and gardens render as visual flower displays.</p>
+
+<h2>Functions</h2>
+<pre><span class="k">garden</span> <span class="fn">functionName</span>(<span class="k">tulip</span> param1, <span class="k">rose</span> param2) {
+    ...
+    <span class="k2">return</span> value
+}</pre>
+
+<h2>Control flow</h2>
+<pre><span class="c"># conditional</span>
+<span class="k2">if</span> (condition) { ... } <span class="k2">else</span> { ... }
+
+<span class="c"># while loop</span>
+<span class="k2">while</span> (condition) { ... }
+
+<span class="c"># for-in loop</span>
+<span class="k2">for</span> (item <span class="k2">in</span> list) { ... }</pre>
+
+<h2>Built-in functions</h2>
+<ul>
+  <li><code>len(list)</code> — length of a list</li>
+  <li><code>str(x)</code> — convert to string</li>
+  <li><code>int(x)</code> — convert to integer</li>
+  <li><code>range(n)</code> / <code>range(start, end)</code> — generate a number range</li>
+  <li><code>abs(x)</code>, <code>max(...)</code>, <code>min(...)</code>, <code>sqrt(x)</code></li>
+</ul>
+
+<h2>lily (list) methods</h2>
+<ul>
+  <li><code>.add(value)</code> — append</li>
+  <li><code>.remove(value)</code> — remove first occurrence</li>
+  <li><code>.pop(index)</code> — remove and return at index</li>
+  <li><code>.len()</code> — length</li>
+  <li><code>.contains(value)</code> — membership check</li>
+</ul>
+
+<h2>bouquet methods</h2>
+<ul>
+  <li><code>.add(flower_type, label)</code> — add a named flower</li>
+  <li><code>.render()</code> — get the string rendering</li>
+  <li><code>.size()</code> — number of flowers</li>
+</ul>
+
+<h2>garden methods</h2>
+<ul>
+  <li><code>.add(flower_type, label)</code> — add a flower to the scene</li>
+  <li><code>.render()</code> — get the visual rendering</li>
+  <li><code>.size()</code> — number of items</li>
+</ul>
+
+<hr/>
+
+<!-- MORE EXAMPLES -->
+<h2 id="examples"><span class="e">🌷</span>More examples</h2>
+
+<h3>greet.petal — garden functions &amp; bouquet returns</h3>
+<pre><span class="k">garden</span> <span class="fn">greet</span>(<span class="k">tulip</span> name) {
+    <span class="k">bouquet</span> b = <span class="k2">new</span> bouquet()
+    b.<span class="fn">add</span>(<span class="s">"rose"</span>,  <span class="s">"Hello, "</span> + name + <span class="s">"!"</span>)
+    b.<span class="fn">add</span>(<span class="s">"lily"</span>,  name)
+    b.<span class="fn">add</span>(<span class="s">"daisy"</span>, <span class="s">"Welcome to the garden!"</span>)
+    <span class="k2">return</span> b
+}
+
+<span class="k2">bloom</span> <span class="fn">greet</span>(<span class="s">"Petalia"</span>)
+<span class="k2">bloom</span> <span class="fn">greet</span>(<span class="s">"Diego"</span>)
+<span class="k2">bloom</span> <span class="fn">greet</span>(<span class="s">"Reinaldo"</span>)</pre>
+
+<div class="output"><span class="output-label">output — greet("Petalia")</span>🌸 Bouquet:
+  🌹 [rose]  Hello, Petalia!
+  🌺 [lily]  Petalia
+  🌼 [daisy] Welcome to the garden!</div>
+
+<h3>fizzbuzz.petal — while loops, conditionals, garden output</h3>
+<pre><span class="c"># orchid=FizzBuzz  sunflower=Fizz  daffodil=Buzz  rose=number</span>
+
+<span class="k">rose</span> i = <span class="n">1</span>
+<span class="k">garden</span> field = <span class="k2">new</span> garden()
+
+<span class="k2">while</span> (i &lt;= <span class="n">15</span>) {
+    <span class="k">daisy</span> by3 = (i % <span class="n">3</span>) == <span class="n">0</span>
+    <span class="k">daisy</span> by5 = (i % <span class="n">5</span>) == <span class="n">0</span>
+
+    <span class="k2">if</span> (by3 and by5) {
+        field.<span class="fn">add</span>(<span class="s">"orchid"</span>,    <span class="fn">str</span>(i) + <span class="s">" → FizzBuzz"</span>)
+    } <span class="k2">else</span> {
+        <span class="k2">if</span> (by3) { field.<span class="fn">add</span>(<span class="s">"sunflower"</span>, <span class="fn">str</span>(i) + <span class="s">" → Fizz"</span>) }
+        <span class="k2">else</span> {
+            <span class="k2">if</span> (by5) { field.<span class="fn">add</span>(<span class="s">"daffodil"</span>, <span class="fn">str</span>(i) + <span class="s">" → Buzz"</span>) }
+            <span class="k2">else</span>     { field.<span class="fn">add</span>(<span class="s">"rose"</span>, <span class="fn">str</span>(i)) }
+        }
+    }
+    i = i + <span class="n">1</span>
+}
+<span class="k2">bloom</span> field</pre>
+
+<h3>fibonacci_garden.petal — functions, while loops, list indexing</h3>
+<pre><span class="k">garden</span> <span class="fn">fibonacci</span>(<span class="k">rose</span> n) {
+    <span class="k">lily</span> seq = <span class="k2">new</span> lily()
+    <span class="k">rose</span> a = <span class="n">0</span>
+    <span class="k">rose</span> b = <span class="n">1</span>
+    <span class="k">rose</span> count = <span class="n">0</span>
+    <span class="k2">while</span> (count &lt; n) {
+        seq.<span class="fn">add</span>(a)
+        <span class="k">rose</span> temp = a + b
+        a = b
+        b = temp
+        count = count + <span class="n">1</span>
+    }
+    <span class="k2">return</span> seq
+}
+
+<span class="k">lily</span> fibs = <span class="fn">fibonacci</span>(<span class="n">10</span>)
+<span class="k">rose</span> idx = <span class="n">0</span>
+<span class="k2">while</span> (idx &lt; <span class="n">10</span>) {
+    <span class="k2">bloom</span> <span class="s">"F("</span> + <span class="fn">str</span>(idx) + <span class="s">") = "</span> + <span class="fn">str</span>(fibs[idx])
+    idx = idx + <span class="n">1</span>
+}</pre>
+
+<div class="output"><span class="output-label">output</span>🌷 F(0) = 0
+🌷 F(1) = 1
+🌷 F(2) = 1
+🌷 F(3) = 2
+🌷 F(4) = 3
+🌷 F(5) = 5
+🌷 F(6) = 8
+🌷 F(7) = 13
+🌷 F(8) = 21
+🌷 F(9) = 34</div>
+
+<hr/>
+
+<!-- PROGRAMS TABLE -->
+<h2 id="programs"><span class="e">💐</span>Demo programs</h2>
+
+<table>
+  <thead><tr><th>File</th><th>Description</th><th></th></tr></thead>
+  <tbody>
+    <tr><td>hello_world.petal</td><td>Hello World with bouquet rendering</td><td><span class="badge bs">simple</span></td></tr>
+    <tr><td>calculator.petal</td><td>Arithmetic with rose numbers, bouquet of results</td><td><span class="badge bs">simple</span></td></tr>
+    <tr><td>greet.petal</td><td>Custom greeting function returning a bouquet</td><td><span class="badge bs">simple</span></td></tr>
+    <tr><td>fizzbuzz.petal</td><td>FizzBuzz 1–15 mapped to flowers in a garden</td><td><span class="badge bs">simple</span></td></tr>
+    <tr><td>fibonacci_garden.petal</td><td>Fibonacci sequence + bubble sort as gardens</td><td><span class="badge bc">complex</span></td></tr>
+    <tr><td>grade_tracker.petal</td><td>Student grade tracker with garden output</td><td><span class="badge bc">complex</span></td></tr>
+  </tbody>
+</table>
+
+<hr/>
+
+<!-- GETTING STARTED -->
+<h2 id="start"><span class="e">🌿</span>Getting started</h2>
+
+<h4>Requirements</h4>
+<p>Python 3.7 or higher. No external packages needed.</p>
+
+<h4>1 — Clone the repository</h4>
+<div class="shell">git clone https://github.com/YOUR_USERNAME/petalia.git && cd petalia</div>
+
+<h4>2 — Run a single program</h4>
+<div class="shell">python interpreter.py hello_world.petal</div>
+
+<h4>3 — Run all demos at once</h4>
+<div class="shell">python interpreter.py --demo</div>
+
+<div class="callout green">
+  <strong>Tip:</strong> Start with <code>hello_world.petal</code>, then work your way up to
+  <code>fibonacci_garden.petal</code> and <code>grade_tracker.petal</code> for the full garden experience.
+</div>
+
+<hr/>
+
+<!-- DESIGN NOTES -->
+<h2><span class="e">🌻</span>Language design notes</h2>
+<ul>
+  <li><strong>Lexical scoping</strong> with block-level variable visibility</li>
+  <li><strong>Interpreted</strong> — runs top to bottom via a hand-written lexer, parser, and tree-walk evaluator in a single Python file</li>
+  <li>Supports <strong>Imperative</strong> (<code>while</code> / <code>for</code>), <strong>Functional</strong> (<code>garden</code> definitions, return values), and <strong>Declarative</strong> (bouquet / garden composition) paradigms</li>
+  <li>Visual output rendered using Unicode box-drawing characters and emoji</li>
+  <li>File extension: <code>.petal</code></li>
+</ul>
+
+<div class="callout">
+  <strong>Flower emoji map:</strong>
+  &nbsp;rose 🌹 &nbsp;·&nbsp; tulip 🌷 &nbsp;·&nbsp; daisy 🌼 &nbsp;·&nbsp;
+  lily 🌺 &nbsp;·&nbsp; orchid 🌸 &nbsp;·&nbsp; sunflower 🌻 &nbsp;·&nbsp; daffodil 💐
+</div>
+
+<hr/>
+
+<p style="text-align:center;font-style:italic;color:var(--muted)">"Where code blooms 🌸"</p>
+
+<footer>
+  <span>Team Petalia &nbsp;·&nbsp; Diego Cardenas &amp; Reinaldo Roldan &nbsp;·&nbsp; CS420</span>
+  <a href="https://github.com/YOUR_USERNAME/petalia">GitHub →</a>
+</footer>
+
+</body>
+</html>
