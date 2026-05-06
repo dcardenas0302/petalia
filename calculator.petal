@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────
+# calculator.petal
+# A simple flower calculator
+# ─────────────────────────────────────────
+
+# Basic arithmetic with roses (integers)
+rose a = 12
+rose b = 4
+
+bloom "🌹 Rose Calculator 🌹"
+bloom "─────────────────────"
+
+tulip result_add = str(a + b)
+bloom "Addition:       " + str(a) + " + " + str(b) + " = " + result_add
+
+tulip result_sub = str(a - b)
+bloom "Subtraction:    " + str(a) + " - " + str(b) + " = " + result_sub
+
+tulip result_mul = str(a * b)
+bloom "Multiplication: " + str(a) + " * " + str(b) + " = " + result_mul
+
+tulip result_div = str(a / b)
+bloom "Division:       " + str(a) + " / " + str(b) + " = " + result_div
+
+tulip result_mod = str(a % b)
+bloom "Modulo:         " + str(a) + " % " + str(b) + " = " + result_mod
+
+# Show as a bouquet of results
+bouquet math_bouquet = new bouquet()
+math_bouquet.add("rose",      str(a) + " + " + str(b) + " = " + result_add)
+math_bouquet.add("tulip",     str(a) + " - " + str(b) + " = " + result_sub)
+math_bouquet.add("sunflower", str(a) + " * " + str(b) + " = " + result_mul)
+math_bouquet.add("lily",      str(a) + " / " + str(b) + " = " + result_div)
+
+bloom math_bouquet

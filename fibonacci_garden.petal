@@ -1,0 +1,126 @@
+# ─────────────────────────────────────────
+# fibonacci_garden.petal
+# Complex program: Fibonacci sequence
+# rendered as a growing garden
+# ─────────────────────────────────────────
+
+bloom "🌻 Fibonacci Garden 🌻"
+bloom "════════════════════════"
+
+# Compute Fibonacci and store in a lily (list)
+garden fibonacci(rose n) {
+    lily seq = new lily()
+    rose a = 0
+    rose b = 1
+    rose count = 0
+    while (count < n) {
+        seq.add(a)
+        rose temp = a + b
+        a = b
+        b = temp
+        count = count + 1
+    }
+    return seq
+}
+
+# Get first 10 Fibonacci numbers
+lily fibs = fibonacci(10)
+
+bloom "First 10 Fibonacci numbers:"
+rose idx = 0
+while (idx < 10) {
+    bloom "  F(" + str(idx) + ") = " + str(fibs[idx])
+    idx = idx + 1
+}
+
+# Render as garden — bigger numbers get showier flowers
+garden fib_garden = new garden()
+rose j = 0
+while (j < 10) {
+    rose val = fibs[j]
+    if (val == 0) {
+        fib_garden.add("daisy", "0")
+    } else {
+        if (val <= 2) {
+            fib_garden.add("rose", str(val))
+        } else {
+            if (val <= 13) {
+                fib_garden.add("tulip", str(val))
+            } else {
+                if (val <= 55) {
+                    fib_garden.add("sunflower", str(val))
+                } else {
+                    fib_garden.add("orchid", str(val))
+                }
+            }
+        }
+    }
+    j = j + 1
+}
+
+bloom "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+bloom "Fibonacci as a garden:"
+bloom fib_garden
+
+
+# ─────────────────────────────────────────
+# Bubble Sort — sorting a lily of numbers
+# ─────────────────────────────────────────
+bloom ""
+bloom "🌷 Bubble Sort Garden 🌷"
+bloom "════════════════════════"
+
+garden bubble_sort(lily arr) {
+    rose n = len(arr)
+    rose i = 0
+    while (i < n) {
+        rose j = 0
+        while (j < n - i - 1) {
+            if (arr[j] > arr[j + 1]) {
+                rose temp = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = temp
+            }
+            j = j + 1
+        }
+        i = i + 1
+    }
+    return arr
+}
+
+lily numbers = [34, 7, 23, 32, 5, 62, 1, 88, 14, 42]
+bloom "Before sorting:"
+
+rose k = 0
+tulip before_str = ""
+while (k < 10) {
+    before_str = before_str + str(numbers[k])
+    if (k < 9) {
+        before_str = before_str + ", "
+    }
+    k = k + 1
+}
+bloom "  🌱 [" + before_str + "]"
+
+lily sorted = bubble_sort(numbers)
+
+bloom "After sorting:"
+rose m = 0
+tulip after_str = ""
+while (m < 10) {
+    after_str = after_str + str(sorted[m])
+    if (m < 9) {
+        after_str = after_str + ", "
+    }
+    m = m + 1
+}
+bloom "  🌹 [" + after_str + "]"
+
+# Render sorted as garden
+garden sorted_garden = new garden()
+rose p = 0
+while (p < 10) {
+    sorted_garden.add("tulip", str(sorted[p]))
+    p = p + 1
+}
+bloom sorted_garden
