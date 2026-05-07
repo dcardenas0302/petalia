@@ -1,0 +1,44 @@
+# ─────────────────────────────────────────
+# fizzbuzz.petal
+# FizzBuzz 1-15 — flower-themed
+#
+# orchid   = FizzBuzz (divisible by 3 and 5)
+# sunflower = Fizz    (divisible by 3)
+# daffodil  = Buzz    (divisible by 5)
+# rose      = plain number
+# ─────────────────────────────────────────
+
+bloom "🌸 FizzBuzz Garden (1 to 15) 🌸"
+bloom "─────────────────────────────────"
+
+rose i = 1
+garden field = new garden()
+
+while (i <= 15) {
+    daisy by3 = (i % 3) == 0
+    daisy by5 = (i % 5) == 0
+
+    if (by3 and by5) {
+        field.add("orchid",    str(i) + "  FizzBuzz")
+        bloom str(i) + " → FizzBuzz  🌸 (orchid)"
+    } else {
+        if (by3) {
+            field.add("sunflower", str(i) + "  Fizz")
+            bloom str(i) + " → Fizz       🌻 (sunflower)"
+        } else {
+            if (by5) {
+                field.add("daffodil", str(i) + " Buzz")
+                bloom str(i) + "  Buzz       💐 (daffodil)"
+            } else {
+                field.add("rose", str(i))
+                bloom str(i) + "  " + str(i) + "           🌹 (rose)"
+            }
+        }
+    }
+
+    i = i + 1
+}
+
+bloom "─────────────────────────────────"
+bloom "Full Garden:"
+bloom field
